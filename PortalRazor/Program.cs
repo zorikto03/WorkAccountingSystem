@@ -1,12 +1,13 @@
 using Persistance.DependencyInjection;
 using PortalRazor;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder( args );
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-Configurations.ConfigureServices( builder.Services );
+Configurations.ConfigureServices( builder.Services, builder.Configuration );
 
 var app = builder.Build();
 
@@ -31,6 +32,6 @@ static void ConfigureApp( WebApplication app )
     app.UseRouting();
 
     app.UseAuthorization();
-
+   
     app.MapRazorPages();
 }

@@ -13,4 +13,5 @@ public class IndexModel : PageModel
     {
         
     }
+    public string PrintDateTime() => DateTime.Now.ToString();
 }

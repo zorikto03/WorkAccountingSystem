@@ -1,0 +1,6 @@
+@Portal.WebApi_HostAddress = http://localhost:5125
+
+GET {{Portal.WebApi_HostAddress}}/user/
+Accept: application/json
+
+###

@@ -22,10 +22,6 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength( Name.MaxNameLength )
             .IsRequired();
 
-        builder.Property( x => x.Sex );
-
-        builder.Property( x => x.EmailAddress );
-
-        builder.Property( x => x.Phone );
+        //builder.Property( x => x.Sex );
     }
 }

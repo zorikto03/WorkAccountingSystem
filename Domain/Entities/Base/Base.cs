@@ -2,9 +2,9 @@
 
 public abstract class Base
 {
-    public Guid Id { get; private set; }
-    public DateTime Created { get; private set; }
-    public DateTime? Updated { get; private set; }
+    public Guid Id { get; set; }
+    public DateTime Created { get; set; }
+    public DateTime? Updated { get; set; }
 
     public Base(Guid id, DateTime created, DateTime? updated)
     {

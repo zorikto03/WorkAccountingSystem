@@ -7,8 +7,8 @@ namespace PortalRazor;
 /// </summary>
 public static class Configurations
 {
-    public static void ConfigureServices(IServiceCollection services )
+    public static void ConfigureServices(IServiceCollection services, IConfiguration configuration )
     {
-        services.AddPersistance();
+        services.AddPersistance( configuration );
     }
 }

@@ -1,5 +1,6 @@
 ﻿@page
 @model PortalRazor.Pages.IndexModel
 @{
-    <h2>Пример страницы index</h2>
+    var datetime = Model.PrintDateTime();
+    <h2>Datetime: @datetime</h2>
 }
