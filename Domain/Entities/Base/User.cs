@@ -13,11 +13,10 @@ public class User : Party
         Name name,
         LoginPassword loginPassword) : base(id, name, sexEnum)
     {
+        LoginPassword = loginPassword;
     }
 
-    public LoginPassword LoginPassword { get; set; }
-    public Guid? CompanyId { get; set; } = null;
-    public Company? Company { get; set; } = null;
+    public LoginPassword LoginPassword { get; private set; }
 
     public static Result<User> Create(string firstName, string lastName, string login, string password, SexEnum sexEnum )
     {
