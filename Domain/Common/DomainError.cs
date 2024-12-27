@@ -6,7 +6,7 @@ public sealed class DomainError
 {
     public static readonly Error None = new Error( string.Empty, string.Empty );
 
-    public static readonly Func<string, Guid, Error> NotFound = (type, id) => new Error ( 
+    public static readonly Func<string, string, Error> NotFound = (type, id) => new Error ( 
         $"{type}.NotFound.", 
         $"{type} with identifier {id} not be found." );
 

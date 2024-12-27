@@ -7,14 +7,23 @@ namespace Persistance;
 
 public class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    public ApplicationDbContext()
     {
+        //Database.EnsureDeleted();
+        //Database.EnsureCreated();
     }
 
     protected override void OnModelCreating( ModelBuilder modelBuilder )
     {
+        modelBuilder.ApplyConfiguration( new SexEnumConfiguration() );
         modelBuilder.ApplyConfiguration( new UserConfiguration() );
-        //modelBuilder.ApplyConfiguration( new CompanyConfiguration() );
+        
         base.OnModelCreating( modelBuilder );
+    }
+
+    protected override void OnConfiguring( DbContextOptionsBuilder optionsBuilder )
+    {
+        optionsBuilder.UseSqlite( "TestDb.db" );
+        base.OnConfiguring( optionsBuilder );
     }
 }

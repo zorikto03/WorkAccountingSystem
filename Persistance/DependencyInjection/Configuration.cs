@@ -11,15 +11,16 @@ public static class Configuration
 {
     public static IServiceCollection AddPersistance(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContextFactory<ApplicationDbContext>(
-            (sp, option) =>
-            {
-                option.UseSqlite( configuration.GetConnectionString( "Sqlite" ) );
-            } );
+        //services.AddDbContextFactory<ApplicationDbContext>(
+        //    (sp, option) =>
+        //    {
+        //        option.UseSqlite( configuration.GetConnectionString( "Sqlite" ) );
+        //    } );
 
         // add repositories
+        services.AddScoped<ISexEnumRepository, SexEnumRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
-        //services.AddScoped<ICompanyRepository, CompanyRepository>();
+
         return services;
     }
 }

@@ -13,7 +13,7 @@ public abstract class ValueObject
         return ReferenceEquals( left, right ) || left.Equals(right);
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals( object obj )
     {
         if ( obj is null || obj.GetType() != GetType())
             return false;
@@ -31,5 +31,10 @@ public abstract class ValueObject
     public static bool operator != ( ValueObject left, ValueObject right )
     {
         return !EqualOperator(left, right);
+    }
+
+    public override int GetHashCode()
+    {
+        return GetEqualityComponents().GetHashCode();
     }
 }

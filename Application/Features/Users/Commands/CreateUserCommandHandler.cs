@@ -8,20 +8,30 @@ namespace Application.Features.Users.Commands;
 internal class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result>
 {
     private readonly IUserRepository _userRepository;
+    private readonly ISexEnumRepository _sexEnumRepository;
 
-    public CreateUserCommandHandler(IUserRepository userRepository)
+    public CreateUserCommandHandler(
+        IUserRepository userRepository,
+        ISexEnumRepository sexEnumRepository )
     {
         _userRepository = userRepository;
+        _sexEnumRepository = sexEnumRepository;
     }
 
     public async Task<Result> Handle( CreateUserCommand request, CancellationToken cancellationToken )
     {
+        var sex = await _sexEnumRepository.GetById( request.SexId, cancellationToken );
+        if (sex is null )
+        {
+            return Result.Failure(DomainError.NotFound(typeof(SexEnum).Name, request.SexId.ToString()));
+        }
+
         var userResult = User.Create(
             request.FirstName,
             request.LastName,
             request.Login,
             request.Password,
-            request.Sex);
+            sex.Id);
         
         if (userResult.IsFailure)
         {

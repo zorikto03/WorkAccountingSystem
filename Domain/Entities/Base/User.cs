@@ -1,24 +1,34 @@
 ﻿using Domain.Common;
-using Domain.Enums;
 using Domain.ValueObjects;
-using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace Domain.Entities.Base;
 
-public class User : Party
+public class User
 {
-    private User(
-        Guid id,
-        SexEnum sexEnum,
-        Name name,
-        LoginPassword loginPassword) : base(id, name, sexEnum)
+    public Guid Id { get; set; }
+    public Name Name { get; set; }
+    public int Sex { get; set; }
+
+    private User() 
     {
+    }
+
+    public User( 
+        Guid id, 
+        Name name,
+        LoginPassword loginPassword,
+        int sex )
+    {
+        Id = id;
+        Name = name;
         LoginPassword = loginPassword;
+        Sex = sex;
     }
 
     public LoginPassword LoginPassword { get; private set; }
 
-    public static Result<User> Create(string firstName, string lastName, string login, string password, SexEnum sexEnum )
+    public static Result<User> Create(string firstName, string lastName, string login, string password, int sex )
     {
         var nameResult = Name.Create( firstName, lastName );
         if ( nameResult.IsFailure )
@@ -28,7 +38,7 @@ public class User : Party
         if ( lpResult.IsFailure )
             return Result.Failure<User>( lpResult.Error );
 
-        var user = new User( Guid.NewGuid(), sexEnum, nameResult.Value, lpResult.Value );
+        var user = new User( Guid.NewGuid(), nameResult.Value, lpResult.Value, sex );
         return user;
     }
 }
