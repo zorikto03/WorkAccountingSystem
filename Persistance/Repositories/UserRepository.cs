@@ -21,7 +21,6 @@ public class UserRepository : IUserRepository
         Guid id, 
         CancellationToken cancellationToken = default ) =>
             await _context.Set<User>()
-                .AsNoTracking()
                 .FirstOrDefaultAsync( x => x.Id == id, cancellationToken );
 
     public async Task Add( User user ) =>

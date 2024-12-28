@@ -1,15 +1,14 @@
 ﻿using Domain.Entities.Base;
-using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistance.EntityConfigurations;
 
-internal class UserConfiguration : IEntityTypeConfiguration<User>
+public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure( EntityTypeBuilder<User> builder )
     {
-        builder.ToTable( typeof( User ).Name );
+        builder.ToTable( nameof( User ) );
 
         builder.HasKey( x => x.Id );
 

@@ -1,5 +1,7 @@
 using Application.Configurations;
+using Persistance;
 using Persistance.DependencyInjection;
+using Persistance.Interfaces;
 
 var builder = WebApplication.CreateBuilder( args );
 
@@ -14,6 +16,11 @@ builder.Services.AddPersistance(builder.Configuration);
 builder.Services.AddApplication();
 
 var app = builder.Build();
+
+// initial db
+using var scope = app.Services.CreateScope();
+var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+context.Database.EnsureCreated();
 
 // Configure the HTTP request pipeline.
 if ( app.Environment.IsDevelopment() )

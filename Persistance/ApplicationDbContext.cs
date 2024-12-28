@@ -1,29 +1,23 @@
-﻿using Domain.Entities;
-using Domain.Entities.Base;
+﻿using Domain.Entities.Base;
 using Microsoft.EntityFrameworkCore;
 using Persistance.EntityConfigurations;
+using System.Reflection.Metadata;
 
 namespace Persistance;
 
 public class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext()
+    public ApplicationDbContext( DbContextOptions<ApplicationDbContext> options ) 
+        : base( options )
     {
-        //Database.EnsureDeleted();
-        //Database.EnsureCreated();
     }
 
-    protected override void OnModelCreating( ModelBuilder modelBuilder )
+    protected override void OnModelCreating( ModelBuilder builder )
     {
-        modelBuilder.ApplyConfiguration( new SexEnumConfiguration() );
-        modelBuilder.ApplyConfiguration( new UserConfiguration() );
-        
-        base.OnModelCreating( modelBuilder );
-    }
+        //builder.ApplyConfigurationsFromAssembly( typeof( AssemblyReference ).Assembly );
+        builder.ApplyConfiguration( new SexEnumConfiguration() );
+        builder.ApplyConfiguration( new UserConfiguration() );
 
-    protected override void OnConfiguring( DbContextOptionsBuilder optionsBuilder )
-    {
-        optionsBuilder.UseSqlite( "TestDb.db" );
-        base.OnConfiguring( optionsBuilder );
+        base.OnModelCreating( builder );
     }
 }

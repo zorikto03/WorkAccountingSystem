@@ -12,10 +12,18 @@ public class SexEnumRepository : ISexEnumRepository
     {
         _context = context;
     }
-    public async Task<SexEnum?> GetById( int id, CancellationToken cancellationToken = default ) =>
-        await _context.Set<SexEnum>()
-            .AsNoTracking()
-            .FirstOrDefaultAsync(
-                x => x.Id == id,
-                cancellationToken );
+
+    public void Add( SexEnum sexEnum ) =>
+            _context.Set<SexEnum>().Add( sexEnum );
+    
+    public void Remove( SexEnum sexEnum ) =>
+        _context.Set<SexEnum>().Remove( sexEnum );
+
+    public async Task<SexEnum?> GetById(
+        int id,
+        CancellationToken cancellationToken = default ) =>
+            await _context.Set<SexEnum>()
+                .FirstOrDefaultAsync(
+                    x => x.Id == id,
+                    cancellationToken );
 }

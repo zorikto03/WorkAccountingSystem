@@ -11,11 +11,11 @@ public static class Configuration
 {
     public static IServiceCollection AddPersistance(this IServiceCollection services, IConfiguration configuration)
     {
-        //services.AddDbContextFactory<ApplicationDbContext>(
-        //    (sp, option) =>
-        //    {
-        //        option.UseSqlite( configuration.GetConnectionString( "Sqlite" ) );
-        //    } );
+        services.AddDbContextFactory<ApplicationDbContext>(
+            ( sp, options ) => options
+                .UseSqlite( configuration.GetConnectionString( "Sqlite" ) ?? string.Empty ));
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         // add repositories
         services.AddScoped<ISexEnumRepository, SexEnumRepository>();

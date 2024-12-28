@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistance.EntityConfigurations;
 
-internal class SexEnumConfiguration : IEntityTypeConfiguration<SexEnum>
+public class SexEnumConfiguration : IEntityTypeConfiguration<SexEnum>
 {
     public void Configure( EntityTypeBuilder<SexEnum> builder )
     {
-        builder.ToTable( typeof( SexEnum ).Name );
+        builder.ToTable( nameof( SexEnum ) );
 
         builder.HasKey( x => x.Id );
 
@@ -20,10 +20,11 @@ internal class SexEnumConfiguration : IEntityTypeConfiguration<SexEnum>
         builder.Property( x => x.Description )
             .HasColumnName( "Description" )
             .IsRequired( false );
-
-        builder.HasData(
-            new SexEnum() { Id = 0, SexName = "Woman", Description = "sex enum woman" },
-            new SexEnum() { Id = 1, SexName = "Man", Description = "sex enum man" }
+        
+        builder.HasData( 
+            new SexEnum() { Id = 1, SexName = "Woman", Description = "sex enum woman" },
+            new SexEnum() { Id = 2, SexName = "Man", Description = "sex enum man" } 
             );
+
     }
 }
