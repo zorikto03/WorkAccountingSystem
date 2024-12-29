@@ -1,7 +1,4 @@
-﻿using Application.Features.Users.Commands;
-using Riok.Mapperly.Abstractions;
-
-namespace Portal.WebApi.Controllers.Models;
+﻿namespace Portal.WebApi.Controllers.Models;
 
 public class CreateUserDto
 {
@@ -12,8 +9,3 @@ public class CreateUserDto
     public int SexId { get; set; }
 }
 
-[Mapper(EnumMappingStrategy = EnumMappingStrategy.ByName)]
-public static partial class CreateUserMapper
-{
-    public static partial CreateUserCommand DtoToCommand( CreateUserDto dto );
-}

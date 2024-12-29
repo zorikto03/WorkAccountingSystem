@@ -1,7 +1,8 @@
-﻿using Application.Features.Users.Queries.GetAll;
+﻿using Application.Features.Users.Commands;
+using Application.Features.Users.Queries.GetAll;
 using Application.Features.Users.Queries.GetById;
+using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Portal.WebApi.Controllers.Models;
 
@@ -12,10 +13,14 @@ namespace Portal.WebApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public UserController(IMediator mediator)
+        public UserController( 
+            IMediator mediator, 
+            IMapper mapper )
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -26,7 +31,7 @@ namespace Portal.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create( [FromBody] CreateUserDto dto)
         {
-            var command = CreateUserMapper.DtoToCommand(dto);
+            var command = _mapper.Map<CreateUserCommand>( dto );
             
             var result = await _mediator.Send(command);
             
@@ -53,7 +58,7 @@ namespace Portal.WebApi.Controllers
             var users = new List<UserVm>();
             result.Value.ForEach( x =>
             {
-                var vm = UserVmMapper.EntityToVm( x );
+                var vm = _mapper.Map<UserVm>( x );
                 users.Add( vm );
             } );
 
@@ -74,7 +79,7 @@ namespace Portal.WebApi.Controllers
             if ( result.IsFailure )
                 return Conflict( result );
 
-            var vm = UserVmMapper.EntityToVm( result.Value );
+            var vm = _mapper.Map<UserVm>( result.Value );
 
             return Ok( vm );
         }
