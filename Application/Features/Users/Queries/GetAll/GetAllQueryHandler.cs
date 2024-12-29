@@ -1,19 +1,28 @@
 ﻿using Domain.Common;
 using Domain.Entities.Base;
 using MediatR;
+using Persistance.Interfaces;
 
 namespace Application.Features.Users.Queries.GetAll;
 
 
 public class GetAllQueryHandler : IRequestHandler<GetAllQuery, Result<List<User>>>
 {
-    public GetAllQueryHandler()
+    private readonly IUserRepository _userRepository;
+
+    public GetAllQueryHandler( IUserRepository userRepository )
     {
-        //todo
+        _userRepository = userRepository;
     }
 
-    public Task<Result<List<User>>> Handle( GetAllQuery request, CancellationToken cancellationToken )
+    public async Task<Result<List<User>>> Handle(
+        GetAllQuery request,
+        CancellationToken cancellationToken )
     {
-        throw new NotImplementedException();
+        var users = await _userRepository.GetAllAsync( cancellationToken );
+        if ( users is null )
+            return Result.Failure<List<User>>( DomainError.IsNull( nameof( List<User> ) ) );
+
+        return users;
     }
 }
