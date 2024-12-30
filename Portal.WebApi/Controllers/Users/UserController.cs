@@ -4,20 +4,20 @@ using Application.Features.Users.Queries.GetById;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Portal.WebApi.Controllers.Models;
+using Portal.WebApi.Controllers.Users.Models;
 
-namespace Portal.WebApi.Controllers
+namespace Portal.WebApi.Controllers.Users
 {
-    [Route( "api/[controller]" )]
+    [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        public UserController( 
-            IMediator mediator, 
-            IMapper mapper )
+        public UserController(
+            IMediator mediator,
+            IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
@@ -29,12 +29,12 @@ namespace Portal.WebApi.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Create( [FromBody] CreateUserDto dto)
+        public async Task<IActionResult> Create([FromBody] CreateUserDto dto)
         {
-            var command = _mapper.Map<CreateUserCommand>( dto );
-            
+            var command = _mapper.Map<CreateUserCommand>(dto);
+
             var result = await _mediator.Send(command);
-            
+
             if (result.IsFailure)
             {
                 return Conflict(result);
@@ -50,19 +50,19 @@ namespace Portal.WebApi.Controllers
         public async Task<IActionResult> GetAll()
         {
             var query = new GetAllQuery();
-            var result = await _mediator.Send( query );
+            var result = await _mediator.Send(query);
 
-            if ( result.IsFailure )
-                return Conflict( result );
+            if (result.IsFailure)
+                return Conflict(result);
 
             var users = new List<UserVm>();
-            result.Value.ForEach( x =>
+            result.Value.ForEach(x =>
             {
-                var vm = _mapper.Map<UserVm>( x );
-                users.Add( vm );
-            } );
+                var vm = _mapper.Map<UserVm>(x);
+                users.Add(vm);
+            });
 
-            return Ok( new UsersListVm() { Users = users } );
+            return Ok(new UsersListVm() { Users = users });
         }
 
         /// <summary>
@@ -71,17 +71,17 @@ namespace Portal.WebApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("id")]
-        public async Task<IActionResult> GetById( Guid id )
+        public async Task<IActionResult> GetById(Guid id)
         {
             var query = new GetByIdQuery(id);
-            var result = await _mediator.Send( query );
+            var result = await _mediator.Send(query);
 
-            if ( result.IsFailure )
-                return Conflict( result );
+            if (result.IsFailure)
+                return Conflict(result);
 
-            var vm = _mapper.Map<UserVm>( result.Value );
+            var vm = _mapper.Map<UserVm>(result.Value);
 
-            return Ok( vm );
+            return Ok(vm);
         }
     }
 }

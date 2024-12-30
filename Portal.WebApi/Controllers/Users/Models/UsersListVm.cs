@@ -1,4 +1,4 @@
-﻿namespace Portal.WebApi.Controllers.Models;
+﻿namespace Portal.WebApi.Controllers.Users.Models;
 
 public class UsersListVm
 {
