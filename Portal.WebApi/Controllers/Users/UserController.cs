@@ -3,6 +3,7 @@ using Application.Features.Users.Queries.GetAll;
 using Application.Features.Users.Queries.GetById;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Portal.WebApi.Controllers.Users.Models;
 
@@ -47,6 +48,7 @@ namespace Portal.WebApi.Controllers.Users
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             var query = new GetAllQuery();
@@ -71,6 +73,7 @@ namespace Portal.WebApi.Controllers.Users
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("id")]
+        [Authorize]
         public async Task<IActionResult> GetById(Guid id)
         {
             var query = new GetByIdQuery(id);

@@ -20,7 +20,10 @@ internal class LoginCommandHandler : IRequestHandler<LoginCommand, Result>
         var user = users.FirstOrDefault(x=>x.LoginPassword.Login == request.Login);
 
         if ( user == null ) 
-            Result.Failure(DomainError.NotFound(nameof(User), request.Login));
+            return Result.Failure(DomainError.NotFound(nameof(User), request.Login));
+
+        if ( user.LoginPassword.Password != request.Password )
+            return Result.Failure( DomainError.None );
 
         return Result.Success();
     }

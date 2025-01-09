@@ -1,4 +1,5 @@
 ﻿using Application.Configurations;
+using Persistance;
 using Persistance.DependencyInjection;
 using Portal.WebApi.Common;
 using System.Reflection;
@@ -11,6 +12,10 @@ public static class App
     {
         services.AddControllers();
         
+        services.AddAuthentication("Bearer")
+            .AddJwtBearer();
+        services.AddAuthorization();
+
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
@@ -24,5 +29,29 @@ public static class App
         services.AddApplication();
 
         return services;
+    }
+
+    public static void ConfigureApplication(WebApplication app)
+    {
+        // initial db
+        using var scope = app.Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        context.Database.EnsureCreated();
+
+        // Configure the HTTP request pipeline.
+        if ( app.Environment.IsDevelopment() )
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        app.UseHttpsRedirection();
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
     }
 }
