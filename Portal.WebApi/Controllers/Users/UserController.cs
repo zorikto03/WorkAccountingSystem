@@ -48,7 +48,7 @@ namespace Portal.WebApi.Controllers.Users
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetAll()
         {
             var query = new GetAllQuery();
@@ -73,7 +73,7 @@ namespace Portal.WebApi.Controllers.Users
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("id")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> GetById(Guid id)
         {
             var query = new GetByIdQuery(id);
